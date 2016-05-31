@@ -14,6 +14,9 @@ namespace DA5
     public partial class filemanagement : Form
     {
         public string patch = "";
+        //Lưu vị trí của sector hiện tại trên ListFile
+        private int possectorfolnow = 0;
+        
         public filemanagement()
         {
             InitializeComponent();
@@ -31,6 +34,7 @@ namespace DA5
             if (patch != "")
             {
                 getfolder(patch, 64, listfoder);
+                possectorfolnow = 64;
             }
         }
         /// <summary>
@@ -85,7 +89,7 @@ namespace DA5
             this.Close();
         }
         /// <summary>
-        /// Tạo mới file nA
+        /// Tạo mới file na
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -127,13 +131,44 @@ namespace DA5
                 fs.Close();
             }
         }
-
+        /// <summary>
+        /// Hàm dùng để xuất ra thư mục con
+        /// Nháy đúp vào Listfolder
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void listfoder_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             string t = listfoder.GetItemText(listfoder.SelectedItem);
-            MessageBox.Show(t);
+            int posEntry = t[0] - '0';
+            if ('0' <= t[1] && t[1] <= '9')
+                posEntry = posEntry * 10 + t[1] - '0';
+            getListofSubFolder(posEntry);
         }
-
+        private void getListofSubFolder(int posEntry)
+        {
+            FileStream fs = new FileStream(patch, FileMode.Open, FileAccess.Read);
+            //Dịch đến sector chứa Sector mô tả bên trong của thư mục được chọn
+            fs.Seek(possectorfolnow + (posEntry - 1) * 32 + 21, SeekOrigin.Begin);
+            //Đọc 3 byte địa chỉ
+            byte[] addr = new byte[3];
+            fs.Read(addr, 0, 3);
+            int pnext = addr[2] + addr[1] * 256 + addr[0] * 256 * 256;
+            //Đi đến sector Next và Getfolder
+            getfolder(patch, 64 + (pnext - 1) * 512, listsubfoder);
+            fs.Close();
+        }
+        /// <summary>
+        /// Đóng file na đang truy xuất
+        /// Xóa tất cả các Items trong ListBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void closeFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listfoder.Items.Clear();
+            listsubfoder.Items.Clear();
+        }
         
     }
 }

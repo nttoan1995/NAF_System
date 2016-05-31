@@ -17,7 +17,6 @@ namespace DA5
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new filemanagement());
-            //Nguyen thanh toan
         }
     }
 }

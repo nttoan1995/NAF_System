@@ -47,6 +47,7 @@
             this.listsubfoder = new System.Windows.Forms.ListBox();
             this.output = new System.Windows.Forms.TextBox();
             this.ofd = new System.Windows.Forms.OpenFileDialog();
+            this.closeFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,6 +68,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.opemToolStripMenuItem,
+            this.closeFileToolStripMenuItem,
             this.newFolderToolStripMenuItem,
             this.copyToolStripMenuItem,
             this.moveToolStripMenuItem,
@@ -134,19 +136,19 @@
             // exportFileToolStripMenuItem
             // 
             this.exportFileToolStripMenuItem.Name = "exportFileToolStripMenuItem";
-            this.exportFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportFileToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.exportFileToolStripMenuItem.Text = "Export file";
             // 
             // encryptFileToolStripMenuItem
             // 
             this.encryptFileToolStripMenuItem.Name = "encryptFileToolStripMenuItem";
-            this.encryptFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.encryptFileToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.encryptFileToolStripMenuItem.Text = "Encrypt file";
             // 
             // decryptFileToolStripMenuItem
             // 
             this.decryptFileToolStripMenuItem.Name = "decryptFileToolStripMenuItem";
-            this.decryptFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.decryptFileToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.decryptFileToolStripMenuItem.Text = "Decrypt file";
             // 
             // helpToolStripMenuItem
@@ -192,6 +194,13 @@
             // 
             this.ofd.FileName = "openFileDialog1";
             // 
+            // closeFileToolStripMenuItem
+            // 
+            this.closeFileToolStripMenuItem.Name = "closeFileToolStripMenuItem";
+            this.closeFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeFileToolStripMenuItem.Text = "Close file";
+            this.closeFileToolStripMenuItem.Click += new System.EventHandler(this.closeFileToolStripMenuItem_Click);
+            // 
             // filemanagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -232,6 +241,7 @@
         private System.Windows.Forms.TextBox output;
         private System.Windows.Forms.OpenFileDialog ofd;
         private System.Windows.Forms.ToolStripMenuItem newFolderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem closeFileToolStripMenuItem;
     }
 }
 
