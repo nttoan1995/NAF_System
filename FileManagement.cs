@@ -16,6 +16,7 @@ namespace DA5
         public string patch = "";
         //Lưu vị trí của sector hiện tại trên ListFile
         private int possectorfolnow = 0;
+        private int possectorsub = 0;
         
         public filemanagement()
         {
@@ -140,11 +141,29 @@ namespace DA5
         private void listfoder_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             string t = listfoder.GetItemText(listfoder.SelectedItem);
-            int posEntry = t[0] - '0';
-            if ('0' <= t[1] && t[1] <= '9')
-                posEntry = posEntry * 10 + t[1] - '0';
-            getListofSubFolder(posEntry);
+            int k = 0;
+            for (int i = 0; i < t.Length; i++)
+            {
+                if (t[i] == '.') k++;
+            }
+            if (k == 1)
+            {
+                int posEntry = t[0] - '0';
+                if ('0' <= t[1] && t[1] <= '9')
+                    posEntry = posEntry * 10 + t[1] - '0';
+                getListofSubFolder(posEntry);
+
+            }
+            else
+                listsubfoder.Items.Clear();
         }
+        /// <summary>
+        /// Cho ra danh sách của các tập tin thư mục của 
+        /// Entry (Thư mục cha)
+        /// </summary>
+        /// <param name="posEntry">
+        /// Vị trí của entry trong sector
+        /// </param>
         private void getListofSubFolder(int posEntry)
         {
             FileStream fs = new FileStream(patch, FileMode.Open, FileAccess.Read);
@@ -155,7 +174,16 @@ namespace DA5
             fs.Read(addr, 0, 3);
             int pnext = addr[2] + addr[1] * 256 + addr[0] * 256 * 256;
             //Đi đến sector Next và Getfolder
-            getfolder(patch, 64 + (pnext - 1) * 512, listsubfoder);
+            if (pnext != 0)
+            {
+                possectorsub = 64 + (pnext - 1) * 512;
+                getfolder(patch, possectorsub, listsubfoder);
+            }
+            else
+            {
+                listsubfoder.Items.Clear();
+                listsubfoder.Items.Add("Can not find folder or file"); 
+            }
             fs.Close();
         }
         /// <summary>
@@ -168,6 +196,40 @@ namespace DA5
         {
             listfoder.Items.Clear();
             listsubfoder.Items.Clear();
+        }
+        /// <summary>
+        /// Bắt sự kiện mở thư mục con của
+        /// thư mục trong listsubfolder
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void listsubfoder_DoubleClick(object sender, EventArgs e)
+        {
+            //Sao chép toàn bộ nội dung của list hiện tại vào ListFolder
+            listfoder.Items.Clear();
+            foreach (string z in listsubfoder.Items)
+                listfoder.Items.Add(z);
+            listfoder.SelectedItem = listsubfoder.SelectedItem;
+            //Cập nhật địa chỉ sector hiện tại của listfolder
+            possectorfolnow = possectorsub;
+            //Xử lí tìm thư mục con trong thư mục đã được chọn
+
+            string t = listfoder.GetItemText(listfoder.SelectedItem);
+            int k = 0;
+            for (int i = 0; i < t.Length; i++)
+            {
+                if (t[i] == '.') k++;
+            }
+            if (k == 1)
+            {
+                int posEntry = t[0] - '0';
+                if ('0' <= t[1] && t[1] <= '9')
+                    posEntry = posEntry * 10 + t[1] - '0';
+                getListofSubFolder(posEntry);
+
+            }
+            else
+                listsubfoder.Items.Clear();
         }
         
     }
