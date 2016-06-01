@@ -17,6 +17,11 @@ namespace DA5
         //Lưu vị trí của sector hiện tại trên ListFile
         private int possectorfolnow = 0;
         private int possectorsub = 0;
+        /// <summary>
+        /// Lưu lại lịch sử duyệt các thư mục. 
+        /// Mỗi phần tử là vị trí bắt đầu của vùng mô tả thư mục
+        /// </summary>
+        private Stack<int> prev = new Stack<int>(); 
         
         public filemanagement()
         {
@@ -35,7 +40,7 @@ namespace DA5
             if (patch != "")
             {
                 getfolder(patch, 64, listfoder);
-                possectorfolnow = 64;
+                possectorfolnow = 64;// Vị trí sector 1
             }
         }
         /// <summary>
@@ -44,9 +49,9 @@ namespace DA5
         /// <param name="patch">Đường dẫn tập tin NA</param>
         /// <param name="pos">Vị trí bắt đầu của vùng mô tả thư mục</param>
         /// <param name="l">ListBox muốn thêm nội dung vào</param>
-
         private void getfolder(string patch, int pos, ListBox l)
         {
+            prev.Push(pos);
             l.Items.Clear();
             string fileformat = "", name = "";
             int count = 0, countread = 32; ;
@@ -85,6 +90,7 @@ namespace DA5
                 l.Items.Add("Can not find folder or file");
             fs.Close(); 
         }
+
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -152,7 +158,6 @@ namespace DA5
                 if ('0' <= t[1] && t[1] <= '9')
                     posEntry = posEntry * 10 + t[1] - '0';
                 getListofSubFolder(posEntry);
-
             }
             else
                 listsubfoder.Items.Clear();
@@ -230,6 +235,22 @@ namespace DA5
             }
             else
                 listsubfoder.Items.Clear();
+        }
+        /// <summary>
+        /// Khôi phục lại trạng thái trước của 2 listbox
+        /// Khôi phục lại 2 biến vị trí Sector của 2 Listbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void but_Back_Click(object sender, EventArgs e)
+        {
+            if (prev.Count > 1)
+            {
+                listsubfoder.Items.Clear();
+                prev.Pop();
+                possectorfolnow = prev.Peek();
+                getfolder(patch, possectorfolnow, listfoder);
+            }
         }
         
     }

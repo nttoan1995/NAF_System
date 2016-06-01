@@ -48,6 +48,7 @@
             this.listsubfoder = new System.Windows.Forms.ListBox();
             this.output = new System.Windows.Forms.TextBox();
             this.ofd = new System.Windows.Forms.OpenFileDialog();
+            this.but_Back = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -192,21 +193,32 @@
             // 
             // output
             // 
-            this.output.Location = new System.Drawing.Point(12, 29);
+            this.output.Location = new System.Drawing.Point(6, 29);
             this.output.Name = "output";
             this.output.ReadOnly = true;
-            this.output.Size = new System.Drawing.Size(140, 20);
+            this.output.Size = new System.Drawing.Size(219, 20);
             this.output.TabIndex = 3;
             // 
             // ofd
             // 
             this.ofd.FileName = "openFileDialog1";
             // 
+            // but_Back
+            // 
+            this.but_Back.Location = new System.Drawing.Point(232, 29);
+            this.but_Back.Name = "but_Back";
+            this.but_Back.Size = new System.Drawing.Size(46, 21);
+            this.but_Back.TabIndex = 4;
+            this.but_Back.Text = "Back";
+            this.but_Back.UseVisualStyleBackColor = true;
+            this.but_Back.Click += new System.EventHandler(this.but_Back_Click);
+            // 
             // filemanagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.but_Back);
             this.Controls.Add(this.output);
             this.Controls.Add(this.listsubfoder);
             this.Controls.Add(this.listfoder);
@@ -243,6 +255,7 @@
         private System.Windows.Forms.OpenFileDialog ofd;
         private System.Windows.Forms.ToolStripMenuItem newFolderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeFileToolStripMenuItem;
+        private System.Windows.Forms.Button but_Back;
     }
 }
 
